@@ -10,8 +10,8 @@
 
 ;; Emacs 23 より前のバージョンを利用している方は
 ;; user-emacs-directory変数が未定義のため次の設定を追加
-(when (> emacs-major-version 23)
-  (defvar user-emacs-directory "~/.emacs.d"))
+(when (< emacs-major-version 23)
+  (defvar user-emacs-directory "~/.emacs.d/"))
 
 ;; load-path を追加する関数を定義
 (defun add-to-load-path (&rest paths)
@@ -59,7 +59,12 @@
 (setq ring-bell-function 'ignore)
 
 ; C-hでBackSpace
-(keyboard-translate ?\C-h ?\C-?)
+;;(keyboard-translate ?\C-h ?\C-?)
+(global-set-key (kbd "C-?") 'help-command)
+(global-set-key (kbd "M-?") 'mark-paragraph)
+(global-set-key (kbd "C-h") 'delete-backward-char)
+(global-set-key (kbd "M-h") 'backward-kill-word)
+(global-set-key (kbd "s-t") 'next-multiframe-window)
 
 ;; スペースで補完
 (if (boundp 'minibuffer-local-filename-completion-map)
@@ -141,19 +146,8 @@
 (add-to-list 'auto-mode-alist '("\\.coffee$" . coffee-mode))
 (add-to-list 'auto-mode-alist '("Cakefile" . coffee-mode))
 
-
-;; 保存したとき、拡張子以外同名のjsバッファをリロードする
-(defun revert-compiled-coffee ()
-  (interactive)
-  (with-current-buffer
-      (concat (file-name-sans-extension (buffer-name (current-buffer))) ".js")
-    (sleep-for 0 500)
-    (revert-buffer nil t)))
-
-(add-hook 'coffee-mode-hook
-          (lambda ()
-            (add-hook 'after-save-hook 'revert-compiled-coffee nil t)))
-
+;; coffee → js用 auto-revert-mode
+(setq auto-revert-interval 1)
 
 ;;(add-to-list 'load-path "~/.emacs.d/auto-install/") 
 ;; auto-install
