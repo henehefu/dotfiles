@@ -155,7 +155,7 @@
             (add-hook 'after-save-hook 'revert-compiled-coffee nil t)))
 
 
-;;(add-to-list 'load-path "~/.emacs.d/auto-install/")
+;;(add-to-list 'load-path "~/.emacs.d/auto-install/") 
 ;; auto-install
 (when (require 'auto-install nil t)
   (auto-install-update-emacswiki-package-name t)
