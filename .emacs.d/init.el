@@ -163,11 +163,12 @@
 ;;(add-to-list 'load-path "~/.emacs.d/auto-install/") 
 ;; auto-install
 (when (require 'auto-install nil t)
-  (auto-install-update-emacswiki-package-name t)
-  (auto-install-compatibility-setup))
+  ;(auto-install-update-emacswiki-package-name t)
+  ;(auto-install-compatibility-setup)
+  )
 
 ;; anything
-(when (require 'anything nil t)
+(when (require 'anything-hoge nil t)
   (setq
    ;; 候補を表示するまでの時間
    anything-idle-delay 0.3
