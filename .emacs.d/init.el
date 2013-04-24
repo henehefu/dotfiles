@@ -4,6 +4,10 @@
 (prefer-coding-system 'utf-8)
 (set-terminal-coding-system 'utf-8)
 
+(cd "~/Documents")
+(column-number-mode t)
+(setq-default tab-width 4)
+
 ;; Emacs 23 より前のバージョンを利用している方は
 ;; user-emacs-directory変数が未定義のため次の設定を追加
 (when (> emacs-major-version 23)
@@ -32,14 +36,17 @@
   (frame-parameter nil 'font)
   'japanese-jisx0208
   '("Hiragino Maru Gothic Pro" . "iso10646-1"))
+
  (set-fontset-font
   (frame-parameter nil 'font)
   'japanese-jisx0212
   '("Hiragino Maru Gothic Pro" . "iso10646-1"))
+
  (set-fontset-font
   (frame-parameter nil 'font)
   'mule-unicode-0100-24ff
   '("monaco" . "iso10646-1"))
+
  (setq face-font-rescale-alist
       '(("^-apple-hiragino.*" . 1.2)
         (".*osaka-bold.*" . 1.2)
@@ -134,4 +141,64 @@
 (add-to-list 'auto-mode-alist '("\\.coffee$" . coffee-mode))
 (add-to-list 'auto-mode-alist '("Cakefile" . coffee-mode))
 
+
+;; 保存したとき、拡張子以外同名のjsバッファをリロードする
+(defun revert-compiled-coffee ()
+  (interactive)
+  (with-current-buffer
+      (concat (file-name-sans-extension (buffer-name (current-buffer))) ".js")
+    (sleep-for 0 500)
+    (revert-buffer nil t)))
+
+(add-hook 'coffee-mode-hook
+          (lambda ()
+            (add-hook 'after-save-hook 'revert-compiled-coffee nil t)))
+
+
+;;(add-to-list 'load-path "~/.emacs.d/auto-install/")
+;; auto-install
+(when (require 'auto-install nil t)
+  (auto-install-update-emacswiki-package-name t)
+  (auto-install-compatibility-setup))
+
+;; anything
+(when (require 'anything nil t)
+  (setq
+   ;; 候補を表示するまでの時間
+   anything-idle-delay 0.3
+   
+   ;; タイプして再描写するまでの時間
+   anything-input-idle-delay 0.2
+   
+   ;; 候補の表示件数
+   anything-condidate-number-limit 100
+
+   ;; 候補が多いときに体感速度を速くする
+   anything-quick-update t
+
+   ;; 候補のショートカットをアルファベットに
+   anything-enable-shortcuts 'alphabet)
+
+  (when (require 'anything-config nil t)
+    ;; root権限でのアクションを実行するときのコマンド
+    (setq anything-su-or-sudo "sudo"))
+
+  (require 'anything-match-plugin nil t)
+
+  (when (and (executable-find "cmigemo")
+             (require 'migemo nil t))
+    (require 'anything-migemo nil t))
+
+  (when (require 'anything-complete nil t)
+    ;; lispシンボルの補完候補の再検索時間
+    (anything-lispcomplete-symbol-set-timer 150))
+
+  (require 'anything-show-completion nil t)
+
+  (when (require 'auto-install nil t)
+    (require 'anything-auto-install nil t))
+
+  (when (require 'descbinds-anything nil t)
+    ;; describe-bindingsをanythingに置き換える
+    (descbinds-anything-install)))
 
