@@ -66,6 +66,17 @@
 (global-set-key (kbd "M-h") 'backward-kill-word)
 (global-set-key (kbd "s-t") 'next-multiframe-window)
 
+
+(defun upcase-backword ()
+  (interactive)
+  (upcase-word -1))
+(global-set-key (kbd "M-U") 'upcase-backword)
+
+(defun capitalize-backword ()
+  (interactive)
+  (capitalize-word -1))
+(global-set-key (kbd "M-C") 'capitalize-backword)
+
 ;; スペースで補完
 (if (boundp 'minibuffer-local-filename-completion-map)
      (define-key minibuffer-local-filename-completion-map
