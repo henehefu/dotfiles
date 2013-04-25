@@ -76,7 +76,22 @@
 (global-set-key (kbd "C-h") 'delete-backward-char)
 (global-set-key (kbd "M-h") 'backward-kill-word)
 (global-set-key (kbd "s-t") 'next-multiframe-window)
+(global-set-key (kbd "s-r") 'rename-buffer)
+(global-set-key (kbd "s-l") 'align-regexp)
+(global-set-key (kbd "s-;") 'align-colon)
+(global-set-key (kbd "s-:") 'align-colon)
+(global-set-key (kbd "s-=") 'align-eq)
 
+(defun align-string (BEG END text)
+  (align-regexp BEG END (concat "\\(\\s-*\\)" text) 1 1))
+
+(defun align-colon (BEG END)
+  (interactive "r")
+  (align-string BEG END ":"))
+
+(defun align-eq (BEG END)
+  (interactive "r")
+  (align-string BEG END "="))
 
 (defun upcase-backword ()
   (interactive)
