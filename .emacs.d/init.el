@@ -207,3 +207,28 @@
   (global-set-key (kbd "C-x C-f") 'helm-find-files)
   )
 
+(when (require 'open-junk-file nil t)
+  (global-set-key (kbd "C-x C-z") 'open-junk-file))
+
+(when (require 'lispxmp nil t)
+  (define-key emacs-lisp-mode-map (kbd "C-c C-d") 'lispxmp))
+
+(when (require 'paredit nil t)
+  (add-hook 'emacs-lisp-mode-hook 'enable-paredit-mode)
+  (add-hook 'lisp-interaction-mode-hook 'enable-paredit-mode)
+  (add-hook 'lisp-mode-hook 'enable-paredit-mode)
+  (add-hook 'ielm-mode-hook 'enable-paredit-mode))
+
+(when (require 'auto-async-byte-compile nil t)
+  (setq auto-async-bte-compile-exclude-files-regexp "/junk/")
+  (add-hook 'emacs-lisp-mode-hook 'enable-auto-async-byte-compile-mode)
+  (add-hook 'emacs-lisp-mode-hook 'turn-on-eldoc-mode)
+  (add-hook 'lisp-interaction-mode-hook 'turn-on-eldoc-mode)
+  (add-hook 'ielm-mode-hook 'turn-on-eldoc-mode)
+  (setq eldoc-idle-delay 0.2)
+  (setq eldoc-minor-mode-string ""))
+
+(global-set-key "\C-m" 'newline-and-indent)
+
+(find-function-setup-keys)
+
