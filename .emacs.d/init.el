@@ -75,8 +75,12 @@
 (global-set-key (kbd "M-?") 'mark-paragraph)
 (global-set-key (kbd "C-h") 'delete-backward-char)
 (global-set-key (kbd "M-h") 'backward-kill-word)
+(define-key isearch-mode-map (kbd "C-h") 'isearch-delete-char)
+
 (global-set-key (kbd "s-t") 'next-multiframe-window)
 (global-set-key (kbd "s-r") 'rename-buffer)
+
+;; align
 (global-set-key (kbd "s-l") 'align-regexp)
 (global-set-key (kbd "s-;") 'align-colon)
 (global-set-key (kbd "s-:") 'align-colon)
