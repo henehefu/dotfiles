@@ -86,6 +86,24 @@
 (global-set-key (kbd "s-:") 'align-colon)
 (global-set-key (kbd "s-=") 'align-eq)
 
+(global-set-key (kbd "s-,") 'previous-error)
+(global-set-key (kbd "s-.") 'next-error)
+
+
+;; 便利C-a
+(defun smart-beginning-of-line ()
+  "Move point to first non-whitespace character or beginning-of-line.
+
+Move point to the first non-whitespace character on this line.
+If point was already at that position, move point to beginning of line."
+  (interactive "^") ; Use (interactive "^") in Emacs 23 to make shift-select work
+  (let ((oldpos (point)))
+    (back-to-indentation)
+    (and (= oldpos (point))
+         (beginning-of-line))))
+
+(define-key global-map "\C-a" 'smart-beginning-of-line)
+
 (defun align-string (BEG END text)
   (align-regexp BEG END (concat "\\(\\s-*\\)" text) 1 1))
 
@@ -117,6 +135,7 @@
 
 (when (>= emacs-major-version 23)
   (require 'linum)
+  (setq linum-format "%3d")
   (global-linum-mode))
 
 
@@ -159,18 +178,6 @@
 (require 'zencoding-mode)
 (add-hook 'sgml-mode-hook 'zencoding-mode) ;; Auto-start on any markup modes
 
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(scroll-error-top-bottom t))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )
 
 (add-to-list 'load-path "~/.emacs.d/lib/")
 (autoload 'js2-mode "js2-mode" nil t)
@@ -190,14 +197,6 @@
 ;; coffee → js用 auto-revert-mode
 (setq auto-revert-interval 1)
 
-
-;;(add-to-list 'load-path "~/.emacs.d/auto-install/") 
-;; auto-install
-;; (when (require 'auto-install nil t)
-;;   ;(auto-install-update-emacswiki-package-name t)
-;;   ;(auto-install-compatibility-setup)
-;;   )
-
 ;; helm でc-hできるようにする
 (eval-after-load 'helm
   '(progn
@@ -207,8 +206,11 @@
      (define-key helm-find-files-map (kbd "C-h") 'delete-backward-char)))
 
 (when (require 'helm-config nil t)
+  (helm-mode t)
   (global-set-key (kbd "C-c h") 'helm-mini)
-  (global-set-key (kbd "C-x C-f") 'helm-find-files)
+  (global-set-key (kbd "s-f") 'helm-occur)
+                                        ;  (global-set-key (kbd "C-x C-f") 'helm-find-files)
+  (define-key isearch-mode-map (kbd "C-o") 'helm-occur-from-isearch)
   )
 
 (when (require 'open-junk-file nil t)
@@ -224,7 +226,7 @@
   (add-hook 'ielm-mode-hook 'enable-paredit-mode))
 
 (when (require 'auto-async-byte-compile nil t)
-  (setq auto-async-bte-compile-exclude-files-regexp "/junk/")
+  (setq auto-async-byte-compile-exclude-files-regexp "/junk/")
   (add-hook 'emacs-lisp-mode-hook 'enable-auto-async-byte-compile-mode)
   (add-hook 'emacs-lisp-mode-hook 'turn-on-eldoc-mode)
   (add-hook 'lisp-interaction-mode-hook 'turn-on-eldoc-mode)
@@ -235,4 +237,69 @@
 (global-set-key "\C-m" 'newline-and-indent)
 
 (find-function-setup-keys)
+
+;; column-highlight
+(when (require 'col-highlight nil t)
+  ;; col-highlightの色を変える
+  (custom-set-faces
+   '(col-highlight((t (:background "moccasin")))))
+
+  ;(column-highlight-mode 1)
+  )
+
+
+(when (require 'auto-complete-config)
+  ;(add-to-list 'ac-dictionary-directories "~/.emacs.d/ac-dict")
+  ;(setq ac-sources 'ac-source-yasnippet)
+  (setq ac-use-menu-map t)
+  (setq ac-auto-start 0)
+  (setq ac-auto-show-menu t)
+  (setq ac-dwim t)
+  (ac-config-default)
+  (global-set-key (kbd "s-j") 'auto-complete)
+  )
+
+(when (require 'yasnippet nil t)
+  (yas-global-mode 1)
+  
+  (require 'helm-c-yasnippet nil t)
+  (setq helm-c-yas-space-match-any-greedy t) ;[default : nil]
+  (setq helm-c-yas-display-key-on-candidate t)
+  (global-set-key (kbd "C-c y") 'helm-c-yas-complete)
+  ;(yas--initialize)
+;; (yas-load-directory "<path>/<to>/snippets/")
+;; (add-to-list 'yas-extra-mode-hooks 'ruby-mode-hook)
+;; (add-to-list 'yas-extra-mode-hooks 'cperl-mode-hook)
+  (setq yas-prompt-functions '(yas-completing-prompt))
+
+  )
+
+;(require 'dropdown-list)
+
+(global-set-key (kbd "C-;") 'comment-or-uncomment-region)
+
+
+;; memo
+;; (ielm) elisp REPL
+(require 'highlight-parentheses nil t)
+
+(when (boundp 'show-trailing-whitespace)
+  (setq-default show-trailing-whitespace t)
+  (set-face-background 'trailing-whitespace "moccasin")
+  )
+
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+  '(haskell-indent-thenelse 2)
+ '(scroll-error-top-bottom t))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(col-highlight ((t (:background "moccasin")))))
+
 
