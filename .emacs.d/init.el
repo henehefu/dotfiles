@@ -90,6 +90,11 @@
 (global-set-key (kbd "s-.") 'next-error)
 
 
+(require 'misc)
+(global-set-key "\M-f" 'forward-to-word)
+;(global-set-key "\M-b" 'backward-to-word)
+
+
 ;; 便利C-a
 (defun smart-beginning-of-line ()
   "Move point to first non-whitespace character or beginning-of-line.
