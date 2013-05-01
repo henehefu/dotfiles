@@ -293,12 +293,18 @@ If point was already at that position, move point to beginning of line."
   (set-face-background 'trailing-whitespace "moccasin")
   )
 
+;; init.elを開く関数
+(defun open-init-el ()
+  "Open ~/.emacs.d/init.el"
+  (interactive)
+  (find-file "~/.emacs.d/init.el"))
+
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
-  '(haskell-indent-thenelse 2)
+ '(haskell-indent-thenelse 2)
  '(scroll-error-top-bottom t))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
