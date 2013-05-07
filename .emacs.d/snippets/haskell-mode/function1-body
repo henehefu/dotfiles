@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: function1-body
+# key: f1
+# --
+${1:func} ${2:a} = $0

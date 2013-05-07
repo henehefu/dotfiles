@@ -1,0 +1,7 @@
+# -*- mode: snippet -*-
+# name: function3
+# key: F3
+# expand-env: ((yas/indent-line 'fixed) (yas/wrap-around-region 'nil))
+# --
+${1:func} :: ${2:A} -> ${3:B} -> ${4:C} -> ${5:D}
+$1 ${6:a} ${7:b} ${8:c} = $0

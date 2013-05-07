@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: function3-body
+# key: f3
+# --
+${1:func} ${2:a} ${3:b} ${4:c} = $0
