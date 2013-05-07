@@ -1,0 +1,6 @@
+# -*- mode: snippet -*-
+# name: import-higing
+# key: ih
+# --
+import ${1:Prelude} hiding ($2)
+$0

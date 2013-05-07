@@ -19,7 +19,7 @@
   (defvar user-emacs-directory "~/.emacs.d/"))
 
 ;; load-path を追加する関数を定義
-;; なんか動いてなくね？(´・ω・`) 
+;; なんか動いてなくね？(´・ω・`)
 (defun add-to-load-path (&rest paths)
   (let (path)
     (dolist (path paths paths)
@@ -37,8 +37,8 @@
 (when window-system
 ;;; フォントセットを作る
   (let* ((fontset-name "myfonts") ; フォントセットの名前
-         (size 18) ; ASCIIフォントのサイズ [9/10/12/14/15/17/19/20/...]
-         (asciifont "Menlo") ; ASCIIフォント
+         (size 19) ; ASCIIフォントのサイズ [9/10/12/14/15/17/19/20/...]
+         (asciifont "Inconsolata") ; ASCIIフォント
          (jpfont "Hiragino Maru Gothic ProN") ; 日本語フォント
          (font (format "%s-%d:weight=normal:slant=normal" asciifont size))
          (fontspec (font-spec :family asciifont))
@@ -47,17 +47,17 @@
     (set-fontset-font fsn 'japanese-jisx0213.2004-1 jp-fontspec)
     (set-fontset-font fsn 'japanese-jisx0213-2 jp-fontspec)
     (set-fontset-font fsn 'katakana-jisx0201 jp-fontspec) ; 半角カナ
-    (set-fontset-font fsn '(#x0080 . #x024F) fontspec) ; 分音符付きラテン
-    (set-fontset-font fsn '(#x0370 . #x03FF) fontspec) ; ギリシャ文字
+    (set-fontset-font fsn '(#x0080 . #x024F) jp-fontspec) ; 分音符付きラテン
+    (set-fontset-font fsn '(#x0370 . #x03FF) jp-fontspec) ; ギリシャ文字
     )
 
 ;;; デフォルトのフレームパラメータでフォントセットを指定
   (add-to-list 'default-frame-alist '(font . "fontset-myfonts"))
 
 ;;; フォントサイズの比を設定
-  (dolist (elt '(("^-apple-hiragino.*" . 1.2)
-                 (".*osaka-bold.*" . 1.2)
-                 (".*osaka-medium.*" . 1.2)
+  (dolist (elt '(("^-apple-hiragino.*" . 1.0)
+                 (".*osaka-bold.*" . 1.0)
+                 (".*osaka-medium.*" . 1.0)
                  (".*courier-bold-.*-mac-roman" . 1.0)
                  (".*monaco cy-bold-.*-mac-cyrillic" . 0.9)
                  (".*monaco-bold-.*-mac-roman" . 0.9)))
@@ -214,7 +214,7 @@ If point was already at that position, move point to beginning of line."
   (helm-mode t)
   (global-set-key (kbd "C-c h") 'helm-mini)
   (global-set-key (kbd "s-f") 'helm-occur)
-                                        ;  (global-set-key (kbd "C-x C-f") 'helm-find-files)
+  ;  (global-set-key (kbd "C-x C-f") 'helm-find-files)
   (define-key isearch-mode-map (kbd "C-o") 'helm-occur-from-isearch)
   )
 
@@ -266,7 +266,7 @@ If point was already at that position, move point to beginning of line."
 
 (when (require 'yasnippet nil t)
   (yas-global-mode 1)
-  
+
   (require 'helm-c-yasnippet nil t)
   (setq helm-c-yas-space-match-any-greedy t) ;[default : nil]
   (setq helm-c-yas-display-key-on-candidate t)
