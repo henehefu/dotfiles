@@ -92,7 +92,8 @@
 
 (require 'misc)
 (global-set-key "\M-f" 'forward-to-word)
-;(global-set-key "\M-b" 'backward-to-word)
+(global-set-key "\M-F" 'forward-word)
+(global-set-key "\M-B" 'backward-to-word)
 
 
 ;; 便利C-a
