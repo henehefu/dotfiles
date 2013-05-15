@@ -79,6 +79,7 @@
 
 (global-set-key (kbd "s-t") 'next-multiframe-window)
 (global-set-key (kbd "s-r") 'rename-buffer)
+(global-set-key (kbd "s-o") 'occur)
 
 ;; align
 (global-set-key (kbd "s-l") 'align-regexp)
@@ -315,3 +316,11 @@ If point was already at that position, move point to beginning of line."
  '(col-highlight ((t (:background "moccasin")))))
 
 
+(setq grep-command "grep -inH -e ")
+
+;; C++ style
+(add-hook 'c++-mode-hook
+          '(lambda()
+             (c-set-style "stroustrup")
+             (setq indent-tabs-mode nil)     ; インデントは空白文字で行う（TABコードを空白に変換）
+             ))
