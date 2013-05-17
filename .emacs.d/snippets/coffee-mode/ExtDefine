@@ -1,0 +1,6 @@
+# -*- mode: snippet -*-
+# name: ExtDefine
+# key: ExtDefine
+# --
+Ext.define '$1',
+    extend: '$2'

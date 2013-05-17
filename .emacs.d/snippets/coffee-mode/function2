@@ -1,0 +1,6 @@
+# -*- mode: snippet -*-
+# name: function2
+# key: f2
+# --
+($1, $2) ->
+     $0
