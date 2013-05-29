@@ -4,6 +4,15 @@
 (prefer-coding-system 'utf-8)
 (set-terminal-coding-system 'utf-8)
 
+;; (add-to-list 'exec-path
+;;              '("~/Library/Haskell/bin"
+;;                "/usr/sbin"
+;;                "/usr/local/bin"))
+(dolist (p '("~/Library/Haskell/bin"
+                "/usr/sbin"
+                "/usr/local/bin"))
+  (add-to-list 'exec-path p))
+
 (cd "~/Documents")
 (column-number-mode t)
 (setq-default tab-width 4)
@@ -324,3 +333,8 @@ If point was already at that position, move point to beginning of line."
              (c-set-style "stroustrup")
              (setq indent-tabs-mode nil)     ; インデントは空白文字で行う（TABコードを空白に変換）
              ))
+
+;; gauche
+(setq scheme-program-name "gosh -i")
+(autoload 'scheme-mode "cmuscheme" "Major mode for Scheme." t)
+(autoload 'run-scheme "cmuscheme" "Run an inferior Scheme process." t)
