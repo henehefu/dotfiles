@@ -1,0 +1,6 @@
+# -*- mode: snippet -*-
+# name: function0
+# key: F0
+# --
+$1 :: $2
+$1 = $0
